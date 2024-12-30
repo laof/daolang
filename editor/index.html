@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .editor-container {
+            background-color: white;
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #444;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-field {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-field input, .form-field textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f7f7f7;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .form-field input {
+            font-size: 20px;
+            font-weight: bold;
+            height: 40px;
+        }
+
+        .form-field textarea {
+            height: 200px;
+            resize: vertical;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+        }
+
+        .form-field textarea:focus, .form-field input:focus {
+            border-color: #007BFF;
+            background-color: white;
+        }
+
+        .editor-buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .editor-buttons button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .editor-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .editor-buttons button:disabled {
+            background-color: #c7c7c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="editor-container">
+        <h1>Blog Post Editor</h1>
+        <form id="blog-form">
+            <!-- Title Field -->
+            <div class="form-field">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" placeholder="Enter the title of your post" required>
+            </div>
+
+            <!-- Description Field -->
+            <div class="form-field">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" placeholder="Write a short description of your blog post" required>
+            </div>
+
+            <!-- Content Field -->
+            <div class="form-field">
+                <label for="content">Content:</label>
+                <textarea id="content" name="content" placeholder="Write your content here..." required></textarea>
+            </div>
+
+            <!-- Submit and Reset Buttons -->
+            <div class="editor-buttons">
+                <button type="submit">Save Post</button>
+                <button type="reset" onclick="clearForm()">Clear</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // URL for your Lambda function's API Gateway endpoint (replace with actual URL)
+        const apiUrl = 'https://warm-profiterole-c9b45a.netlify.app/.netlify/functions/add_posts/';
+
+        // Handle form submission
+        document.getElementById('blog-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            // Get form data
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const content = document.getElementById('content').value;
+
+            // Prepare the payload
+            const postData = {
+                title: title,
+                description: description,
+                content: content
+            };
+
+            // Send the data to the API using fetch
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(postData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Your post has been saved successfully!');
+                    console.log(data); // Optional: Log the response data
+                } else {
+                    alert('There was an error saving your post.');
+                    console.error(data); // Log error message
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while saving your post.');
+            }
+
+            // Reset form after submission
+            this.reset();
+        });
+
+        // Function to clear the form
+        function clearForm() {
+            document.getElementById('blog-form').reset();
+        }
+    </script>
+
+</body>
+</html>

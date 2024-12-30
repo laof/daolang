@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-8 space-y-8">
+        <h1 class="text-4xl font-bold text-center text-gray-700 mb-6">Blog Posts</h1>
+
+        <div id="posts-list" class="space-y-6">
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'https://warm-profiterole-c9b45a.netlify.app/.netlify/functions/list_posts/';
+
+        async function fetchPosts() {
+            try {
+                const response = await fetch(apiUrl);
+                const posts = await response.json();
+
+                const postsList = document.getElementById('posts-list');
+                postsList.innerHTML = '';
+
+                posts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('bg-white', 'p-6', 'rounded-lg', 'shadow-md', 'hover:shadow-lg', 'transition-shadow');
+
+                    postElement.innerHTML = `
+                        <h2 class="text-2xl font-semibold text-gray-800">${post.title}</h2>
+                        <p class="text-gray-600 my-2">${post.description}</p>
+                        <p class="text-gray-500">${post.content}</p>
+                    `;
+
+                    postsList.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        }
+
+        // Fetch posts when the page loads
+        window.onload = fetchPosts;
+    </script>
+
+</body>
+</html>
