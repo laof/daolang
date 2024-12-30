@@ -36,6 +36,13 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 	// 目标 URL
 	targetURL := getUrl(request.Path) // 替换为你要转发的目标 URL
 
+	if targetURL == "" {
+		return &events.APIGatewayProxyResponse{
+			StatusCode: 404,
+			Body:       "not found: " + request.Path,
+		}, nil
+	}
+
 	// 创建一个新的 HTTP 请求
 	httpReq, err := http.NewRequest(
 		request.HTTPMethod, // 使用原始请求的方法
