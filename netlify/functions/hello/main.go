@@ -89,18 +89,18 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 		}
 	}
 
-	headers["lova-test"]="daolang"
+	headers["lova-test"] = "daolang"
 	headers["Custom-Header"] = "Custom-Value"
 
 	// 构建 API Gateway 响应
-	return &events.APIGatewayProxyResponse{
+	res := &events.APIGatewayProxyResponse{
 		StatusCode: httpResp.StatusCode,
-		Headers: map[string]string{
-	          "cache-status44": "ok",
-		  "cache-status": "",
-	        },
 		Body:       string(respBody),
-	}, nil
+	}
+
+	res.Headers["Custom-Header"] = "Custom-Value"
+	delete(res.Headers, "Cache-Status")
+	return res, nil
 }
 
 func main() {
