@@ -90,7 +90,7 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 	}
 
 	headers["lova-test"]="daolang"
-	Headers["Custom-Header"] = "Custom-Value"
+	headers["Custom-Header"] = "Custom-Value"
 
 	// 构建 API Gateway 响应
 	return &events.APIGatewayProxyResponse{
