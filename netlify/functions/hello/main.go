@@ -95,7 +95,9 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 	// 构建 API Gateway 响应
 	return &events.APIGatewayProxyResponse{
 		StatusCode: httpResp.StatusCode,
-		Headers:    headers,
+		Headers: map[string]string{
+	          "cache-status44": "ok",
+	        },
 		Body:       string(respBody),
 	}, nil
 }
