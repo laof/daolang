@@ -97,6 +97,7 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 		StatusCode: httpResp.StatusCode,
 		Headers: map[string]string{
 	          "cache-status44": "ok",
+		  "cache-status": "",
 	        },
 		Body:       string(respBody),
 	}, nil
