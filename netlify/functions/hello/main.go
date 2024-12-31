@@ -84,11 +84,12 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 	// 将 http.Header 转换为 map[string]string
 	headers := make(map[string]string)
 	for key, values := range httpResp.Header {
-		// 只取第一个值，如果有多个值，可以根据需要处理
-		if len(values) > 0 {
-			headers[key] = values[0]
+		for _, value := range values {
+			headers[key] = value
 		}
 	}
+
+	headers["lova-test"]="daolang"
 
 	// 构建 API Gateway 响应
 	return &events.APIGatewayProxyResponse{
