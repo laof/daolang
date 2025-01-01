@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"io"
+	"log"
 	"net/http"
 	"strings"
 
@@ -87,11 +88,18 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 		Body:       string(respBody),
 	}
 
-	res.Headers["Custom-Header"] = "Custom-Value"
-	delete(res.Headers, "Cache-Status")
+	// res.Headers["Custom-Header"] = "Custom-Value"
+	// delete(res.Headers, "Cache-Status")
 	return &res, nil
 }
 
 func main() {
+
+	log.Println("fdfsaf")
+
+	// 设置环境变量
+	// os.Setenv("_LAMBDA_SERVER_PORT", "9000")
+	// os.Setenv("AWS_LAMBDA_RUNTIME_API", "127.0.0.1:9000")
 	lambda.Start(proxy)
+
 }
