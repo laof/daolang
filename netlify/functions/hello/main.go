@@ -88,13 +88,13 @@ func proxy(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyRespon
 		Body:       string(respBody),
 	}
 
-	res.Headers["LaoK"] = "OK"
+	// res.Headers["LaoK"] = "OK"
 
-	for key, values := range httpResp.Header {
-		for _, value := range values {
-			res.Headers[key] = value
-		}
-	}
+	// for key, values := range httpResp.Header {
+	// 	for _, value := range values {
+	// 		res.Headers[key] = value
+	// 	}
+	// }
 
 	// res.Headers["Custom-Header"] = "Custom-Value"
 	// delete(res.Headers, "Cache-Status")
