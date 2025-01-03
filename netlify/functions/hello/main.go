@@ -64,7 +64,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	url := r.URL.RequestURI()
 
 	if len(url) < 5 {
-		fmt.Fprintf(w, "not found: "+url)
+		fmt.Fprintf(w, "%s", "not found: "+url)
 		return
 	}
 
